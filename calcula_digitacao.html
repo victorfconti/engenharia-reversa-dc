@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en_us">
+    <meta charset="UTF-8">
+    <meta content="origin" name="referrer">
+    <head>
+        <title>Typing speedy calculate</title>
+        
+        <script defer>
+            function clear_fields(){
+                document.getElementById('typing_place').value = '';
+                document.getElementById('lbl_metrics').innerHTML = '';
+            }
+            let start_moment = null;
+            function startChronometer(){
+                clear_fields();
+                start_moment = new Date();
+            };
+            function endChronometer(){
+                const text = document.getElementById('typing_place').value;
+                total_time = (new Date() - start_moment) / 1000;
+                console.log(total_time);
+                metrics = calc_metrics(text);
+                metrics['total_time'] = total_time;
+                show_metrics(metrics);
+            }
+            function calc_metrics(text){
+                const numbers_of_words = text.trim().split(' ').length;
+                const numbers_of_letters = text.length;
+                return {numbers_of_words: numbers_of_words, numbers_of_letters: numbers_of_letters};
+            }
+            function show_metrics(metrics){
+                const text_to_show = `You typed ${metrics['numbers_of_words']} words and ${metrics['numbers_of_letters']} letters in ${metrics['total_time']} seconds`;
+                document.getElementById('lbl_metrics').innerHTML = text_to_show;                
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Click inside the text box to start the chronometer and press tab to end</h1>
+        <br>
+        <textarea id="typing_place" onfocus="startChronometer()" onblur="endChronometer();"></textarea>
+        <br>
+        <br>
+        <label id="lbl_metrics"></label>
+    </body>
+    <script defer>
+        clear_fields();
+    </script>
+</html>
